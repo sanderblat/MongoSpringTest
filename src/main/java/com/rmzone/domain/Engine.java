@@ -18,6 +18,8 @@
  */
 package com.rmzone.domain;
 
+import java.util.Date;
+
 /** 
  * @author Raffaele Magliocco jr.
  *
@@ -25,5 +27,34 @@ package com.rmzone.domain;
 public class Engine extends DocumentMaster implements RevisionControlled {
 	private float horsePower;
 	
-	public Engine() { }
+	public Engine() { 
+		this.type = "Engine";
+	}
+
+	/**
+	 * @param number
+	 * @param description
+	 * @param revision
+	 * @param createdBy
+	 * @param createdDate
+	 */
+	public Engine(String number, String description, int revision,
+			User createdBy, Date createdDate) {
+		super(number, description, revision, createdBy, createdDate);
+		this.type = "Engine";
+	}
+
+	/**
+	 * @return the horsePower
+	 */
+	public float getHorsePower() {
+		return horsePower;
+	}
+
+	/**
+	 * @param horsePower the horsePower to set
+	 */
+	public void setHorsePower(float horsePower) {
+		this.horsePower = horsePower;
+	}
 }

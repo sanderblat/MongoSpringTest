@@ -19,6 +19,7 @@
 package com.rmzone.core;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -29,11 +30,14 @@ import org.springframework.data.document.mongodb.query.Criteria;
 import org.springframework.data.document.mongodb.query.Query;
 import org.springframework.data.document.mongodb.query.Update;
 import com.rmzone.config.SpringMongoConfig;
+import com.rmzone.domain.Car;
+import com.rmzone.domain.DocumentMaster;
+import com.rmzone.domain.Engine;
+import com.rmzone.domain.Tire;
 import com.rmzone.domain.User;
 
 public class App
 {
-
     public static void main( String[] args )
     {
     	// set up mongo
@@ -46,39 +50,41 @@ public class App
         users.add( new User("1002", "mickey", "mouse") );               
         
         for (User user : users)
-        	mongoOperation.save("user", user);       
+        	mongoOperation.save("users", user);  
         
+        // create and save some documents
+        Tire tire = new Tire("Michelin", "Alpine", 1, users.get(0), Calendar.getInstance().getTime(), 14, 12, 3);                 
+    	mongoOperation.save("documents", tire); 
+    	
+    	Engine engine = new Engine("Model T", "Wow", 1, users.get(0), Calendar.getInstance().getTime());                 
+    	engine.setHorsePower(16.4f);
+    	mongoOperation.save("documents", engine); 
+    	
+    	Car car = new Car("Pinto", "don't touch me!", 1, users.get(0), Calendar.getInstance().getTime());   
+    	car.setMake("Ford");
+    	car.setColor("Blue");
+    	car.setEngine(engine);
+    	
+    	// sorry not very elegant
+    	car.setTires(new ArrayList<Tire>());
+    	for (int i=0; i<4; i++)
+    		car.getTires().add(tire);
+    	mongoOperation.save("documents", car); 
         
-//        //find
-//        User savedUser = mongoOperation.findOne("userprofile",
-//        		new Query(Criteria.where("id").is("1001")),
-//				User.class);
-//        
-//        System.out.println("savedUser : " + savedUser);
-//        
-//        //update
-//        mongoOperation.updateFirst("userprofile",
-//        		new Query(Criteria.where("firstname").is("yong")), 
-//        		Update.update("lastname", "new lastname"));
-//        
-//        //find
-//        User updatedUser = mongoOperation.findOne(
-//        		"userprofile",
-//        		new Query(Criteria.where("id").is("1001")),
-//				User.class);
-//        
-//        System.out.println("updatedUser : " + updatedUser);
+        // dump all the data        
+        List<User> listUser =  mongoOperation.getCollection("users", User.class);
+        System.out.println("Number of users = " + listUser.size());
+        for (User user : listUser)
+        	System.out.println(user.toString()); 
         
-        //delete
-        //mongoOperation.remove("user",
-        //		new Query(Criteria.where("id").is("1001")),
-        //		User.class);
+        List<DocumentMaster> listDocument =  mongoOperation.getCollection("documents", DocumentMaster.class);
+        System.out.println("Number of documents = " + listDocument.size());
+        for (DocumentMaster document1 : listDocument)
+        	System.out.println(document1.toString()); 
         
-        //List
-        List<User> listUser =  
-        	mongoOperation.getCollection("user", User.class);
-        System.out.println("Number of user = " + listUser.size());
-        
+        // delete everything
+        mongoOperation.dropCollection("users");
+        mongoOperation.dropCollection("documents");
     }
     
 }

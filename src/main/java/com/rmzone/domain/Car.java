@@ -18,6 +18,7 @@
  */
 package com.rmzone.domain;
 
+import java.util.Date;
 import java.util.List;
 
 /** 
@@ -30,6 +31,77 @@ public class Car extends DocumentMaster implements RevisionControlled {
 	private List<Tire> tires;
 	private Engine engine;
 	
-	public Car() { }
+	public Car() { 
+		this.type = "Car";
+	}
+
+	/**
+	 * @param number
+	 * @param description
+	 * @param revision
+	 * @param createdBy
+	 * @param createdDate
+	 */
+	public Car(String number, String description, int revision, User createdBy,
+			Date createdDate) {
+		super(number, description, revision, createdBy, createdDate);
+		this.type = "Car";
+	}
+
+	/**
+	 * @return the make
+	 */
+	public String getMake() {
+		return make;
+	}
+
+	/**
+	 * @param make the make to set
+	 */
+	public void setMake(String make) {
+		this.make = make;
+	}
+
+	/**
+	 * @return the color
+	 */
+	public String getColor() {
+		return color;
+	}
+
+	/**
+	 * @param color the color to set
+	 */
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	/**
+	 * @return the tires
+	 */
+	public List<Tire> getTires() {
+		return tires;
+	}
+
+	/**
+	 * @param tires the tires to set
+	 */
+	public void setTires(List<Tire> tires) {
+		this.tires = tires;
+	}
+
+	/**
+	 * @return the engine
+	 */
+	public Engine getEngine() {
+		return engine;
+	}
+
+	/**
+	 * @param engine the engine to set
+	 */
+	public void setEngine(Engine engine) {
+		this.engine = engine;
+	}
 
 }

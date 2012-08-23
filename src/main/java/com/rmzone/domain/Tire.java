@@ -18,6 +18,8 @@
  */
 package com.rmzone.domain;
 
+import java.util.Date;
+
 /** 
  * @author Raffaele Magliocco jr.
  *
@@ -27,6 +29,27 @@ public class Tire extends DocumentMaster {
 	private int height;
 	private int width;
 	
-	public Tire() { }
+	public Tire() { 
+		this.type = "Tire";
+	}
+
+	/**
+	 * @param number
+	 * @param description
+	 * @param revision
+	 * @param createdBy
+	 * @param createdDate
+	 */
+	public Tire(String number, String description, int revision,
+			User createdBy, Date createdDate, int radius, int height, int width) {
+		super(number, description, revision, createdBy, createdDate);
+		
+		this.type = "Tire";
+		this.radius = radius;
+		this.height = height;
+		this.width = width;
+	}
+	
+	
 
 }
