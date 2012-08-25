@@ -21,6 +21,8 @@ package com.rmzone.domain;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.document.mongodb.mapping.DBRef;
+
 /** 
  * @author Raffaele Magliocco jr.
  */
@@ -28,7 +30,11 @@ public class Car extends DocumentMaster implements RevisionControlled {
 
 	private String make;
 	private String color;
+	
+	@DBRef
 	private List<Tire> tires;
+	
+	@DBRef
 	private Engine engine;
 	
 	public Car() { 
